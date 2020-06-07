@@ -1,4 +1,4 @@
-package apiclient
+package riot
 
 import (
 	"fmt"
@@ -226,10 +226,10 @@ type MatchReferenceDTO struct {
 }
 
 func (r *riot) GetMatch(matchID int64) (*MatchDTO, error) {
-	requestUrl := fmt.Sprintf("%s/%d", MatchesURL, matchID)
+	requestUrl := fmt.Sprintf("%s/%d", EndpointMatches, matchID)
 
 	var match MatchDTO
-	_, err := r.performRequest(requestUrl, &match)
+	_, err := r.sendRequest(requestUrl, &match)
 	if err != nil {
 		return nil, err
 	}
@@ -238,10 +238,10 @@ func (r *riot) GetMatch(matchID int64) (*MatchDTO, error) {
 }
 
 func (r *riot) GetMatchlist(accountID string) (*MatchlistDTO, error) {
-	requestUrl := fmt.Sprintf("%s/%s", MatchlistsURL, accountID)
+	requestUrl := fmt.Sprintf("%s/%s", EndpointMatchlists, accountID)
 
 	var matchlist MatchlistDTO
-	_, err := r.performRequest(requestUrl, &matchlist)
+	_, err := r.sendRequest(requestUrl, &matchlist)
 	if err != nil {
 		return nil, err
 	}

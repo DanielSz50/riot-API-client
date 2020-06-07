@@ -1,8 +1,8 @@
-package apiclient
+package riot
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 )
 
 type Parser interface {
@@ -11,41 +11,35 @@ type Parser interface {
 
 func (s *SummonerDTO) parse(response []byte) error {
 	if err := json.Unmarshal(response, s); err != nil {
-		log.Printf("Couldn't unmarshall SummonerDTO JSON: %v\n", err)
-		return err
+		return fmt.Errorf("Couldn't unmarshall SummonerDTO: %w\n", err)
 	}
 	return nil
 }
 
 func (g *CurrentGameInfo) parse(response []byte) error {
 	if err := json.Unmarshal(response, g); err != nil {
-		log.Printf("Couldn't unmarshall CurrentGameInfo JSON: %v\n", err)
-		return err
+		return fmt.Errorf("Couldn't unmarshall CurrentGameInfo: %w\n", err)
 	}
-
 	return nil
 }
 
 func (l *LeagueEntriesDTO) parse(response []byte) error {
 	if err := json.Unmarshal(response, l); err != nil {
-		log.Printf("Couldn't unmarshall LeagueEntriesDTO: %v\n", err)
-		return err
+		return fmt.Errorf("Couldn't unmarshall LeagueEntriesDTO: %w\n", err)
 	}
 	return nil
 }
 
 func (m *MatchDTO) parse(response []byte) error {
 	if err := json.Unmarshal(response, m); err != nil {
-		log.Printf("Couldn't unmarshall MatchDTO: %v\n", err)
-		return err
+		return fmt.Errorf("Couldn't unmarshall MatchDTO: %w\n", err)
 	}
 	return nil
 }
 
 func (m *MatchlistDTO) parse(response []byte) error {
 	if err := json.Unmarshal(response, m); err != nil {
-		log.Printf("Couldn't unmarshall MatchlistDTO: %v\n", err)
-		return err
+		return fmt.Errorf("Couldn't unmarshall MatchlistDTO: %w\n", err)
 	}
 	return nil
 }

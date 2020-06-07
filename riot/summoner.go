@@ -1,6 +1,8 @@
-package apiclient
+package riot
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type SummonerDTO struct {
 	ProfileIconId int    `json:"profileIconId"`
@@ -13,10 +15,10 @@ type SummonerDTO struct {
 }
 
 func (r *riot) GetSummoner(summonerName string) (*SummonerDTO, error) {
-	requestUrl := fmt.Sprintf("%s/%s", SummonerURL, summonerName)
+	requestUrl := fmt.Sprintf("%s/%s", EndpointSummoner, summonerName)
 
 	var summoner SummonerDTO
-	if _, err := r.performRequest(requestUrl, &summoner); err != nil {
+	if _, err := r.sendRequest(requestUrl, &summoner); err != nil {
 		return nil, err
 	}
 

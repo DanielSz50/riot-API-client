@@ -1,9 +1,7 @@
-package apiclient
+package riot
 
 import (
 	"fmt"
-	"strconv"
-	"time"
 )
 
 type LeagueEntryDTO struct {
@@ -46,53 +44,12 @@ type LeagueItemDTO struct {
 }
 
 func (r *riot) GetLeagueEntries(queue string, tier string, division string) (LeagueEntriesDTO, error) {
-	requestUrl := fmt.Sprintf("%s/%s/%s/%s?page=1", EntriesURL, queue, tier, division)
+	requestUrl := fmt.Sprintf("%s/%s/%s/%s?page=1", EndpointEntries, queue, tier, division)
 
 	var leagueEntries LeagueEntriesDTO
-	if _, err := r.performRequest(requestUrl, &leagueEntries); err != nil {
+	if _, err := r.sendRequest(requestUrl, &leagueEntries); err != nil {
 		return nil, err
 	}
 
 	return leagueEntries, nil
-}
-
-func (r *riot) GetTopWinRatio(queue string, tier string) (*LeagueEntryDTO, error) {
-	requestUrl := fmt.Sprintf("%s/%s/%s", EntriesURL, queue, tier)
-	divisions := []string{"I", "II", "III", "IV"}
-
-	maxWinRatio := 0.0
-	var bestSummoner LeagueEntryDTO
-	for i := 0; i < 4; i++ {
-		tempURL := requestUrl + "/" + divisions[i] + "/"
-		divURL := tempURL
-		for p := 1; p < 1000; p++ {
-			tempURL += "?page=" + strconv.Itoa(p)
-			var leagueEntries LeagueEntriesDTO
-			statusCode, err := r.performRequest(tempURL, &leagueEntries)
-			if err != nil {
-				return nil, err
-			}
-			if statusCode != 200 {
-				fmt.Println(tempURL)
-				time.Sleep(5 * time.Second)
-				p--
-				tempURL = divURL
-				continue
-			}
-			if len(leagueEntries) == 0 {
-				break
-			}
-
-			for _, e := range leagueEntries {
-				winRatio := float64(e.Wins) / float64(e.Wins+e.Losses)
-				if winRatio > maxWinRatio {
-					maxWinRatio = winRatio
-					bestSummoner = e
-				}
-			}
-			tempURL = divURL
-		}
-	}
-
-	return &bestSummoner, nil
 }

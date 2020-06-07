@@ -1,6 +1,8 @@
-package apiclient
+package riot
 
-import "fmt"
+import (
+	"fmt"
+)
 
 type CurrentGameInfo struct {
 	GameId            int64                    `json:"gameId"`
@@ -56,9 +58,9 @@ func (r *riot) GetCurrentGame(summonerName string) (*CurrentGameInfo, error) {
 		return nil, err
 	}
 
-	requestUrl := fmt.Sprintf("%s/%s", SpectatorURL, summoner.ID)
+	requestUrl := fmt.Sprintf("%s/%s", EndpointSpectator, summoner.ID)
 	var game CurrentGameInfo
-	if _, err := r.performRequest(requestUrl, &game); err != nil {
+	if _, err := r.sendRequest(requestUrl, &game); err != nil {
 		return nil, err
 	}
 

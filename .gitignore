@@ -1,1 +1,2 @@
-.api_key
+# don't expose env variables
+.env

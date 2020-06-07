@@ -2,19 +2,20 @@ package main
 
 import (
 	"fmt"
-	riot "riot-API-client/apiclient"
+	"log"
+	"riot-API-client/riot"
 )
 
 func main() {
 	client, err := riot.New()
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
 
-	leagueEntries, err := client.GetLeagueEntries("RANKED_SOLO_5x5", "DIAMOND", "I")
+	leagueEntries, err := client.GetLeagueEntries(riot.QueueRankedSolo5, riot.TierDiamond, riot.Division1)
 	if err != nil {
-		fmt.Println(err)
+		log.Println(err)
 	}
-	fmt.Println(leagueEntries[0].SummonerName)
 
+	fmt.Println(leagueEntries[0].SummonerName)
 }
